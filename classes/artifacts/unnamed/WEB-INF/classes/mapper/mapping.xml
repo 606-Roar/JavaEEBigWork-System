@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="cn.zucc.edu.entity.Attendance" table="attendance" schema="grade">
+        <id name="attendanceid" column="attendanceid"/>
+        <property name="attendancedate" column="attendancedate"/>
+        <property name="courseid" column="courseid"/>
+    </class>
+    <class name="cn.zucc.edu.entity.Attendancedetails" table="attendancedetails" schema="grade">
+        <id name="nid" column="nid"/>
+        <property name="attendanceid" column="attendanceid"/>
+        <property name="studentid" column="studentid"/>
+        <property name="attendancedetail" column="attendancedetail"/>
+    </class>
+    <class name="cn.zucc.edu.entity.Course" table="course" schema="grade">
+        <id name="courseid" column="courseid"/>
+        <property name="teacherid" column="teacherid"/>
+        <property name="coursename" column="coursename"/>
+    </class>
+    <class name="cn.zucc.edu.entity.Homeworkdetails" table="homeworkdetails" schema="grade">
+        <id name="hid" column="hid"/>
+        <property name="homeworkid" column="homeworkid"/>
+        <property name="studentid" column="studentid"/>
+        <property name="homeworkdetail" column="homeworkdetail"/>
+    </class>
+    <class name="cn.zucc.edu.entity.Selectedcourses" table="selectedcourses" schema="grade">
+        <id name="cid" column="cid"/>
+        <property name="studentid" column="studentid"/>
+        <property name="courseid" column="courseid"/>
+        <property name="midtermresults" column="midtermresults"/>
+        <property name="finalgrade" column="finalgrade"/>
+    </class>
+    <class name="cn.zucc.edu.entity.Student" table="student" schema="grade">
+        <id name="sid" column="sid"/>
+        <property name="studentid" column="studentid"/>
+        <property name="studentname" column="studentname"/>
+        <property name="courseid" column="courseid"/>
+    </class>
+    <class name="cn.zucc.edu.entity.Teacher" table="teacher" schema="grade">
+        <id name="teacherid" column="teacherid"/>
+        <property name="teachername" column="teachername"/>
+        <property name="type" column="type"/>
+        <property name="password" column="password"/>
+    </class>
+    <class name="cn.zucc.edu.entity.Homework" table="homework" schema="grade">
+        <id name="homeworkid" column="homeworkid"/>
+        <property name="homeworkstartdate" column="homeworkstartdate"/>
+        <property name="courseid" column="courseid"/>
+        <property name="homeworkenddate" column="homeworkenddate"/>
+    </class>
+</hibernate-mapping>
