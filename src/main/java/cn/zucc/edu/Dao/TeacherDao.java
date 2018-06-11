@@ -4,17 +4,20 @@ import cn.zucc.edu.entity.Teacher;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+import javax.persistence.AssociationOverride;
 import java.util.List;
+@CrossOrigin(origins = "*")
 @Repository("TeacherDao")
 public class TeacherDao {
+    @Autowired
     private SessionFactory sessionFactory;
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
     //显示老师列表
     public synchronized List<Teacher>  loadAllTeacher(){
-    return this.sessionFactory.getCurrentSession().createQuery("from Teacher").list();
+    return this.sessionFactory.openSession().createQuery("from Teacher").list();
     }
     //通过id查看老师
     public synchronized Teacher readTeacher(int teacherid){

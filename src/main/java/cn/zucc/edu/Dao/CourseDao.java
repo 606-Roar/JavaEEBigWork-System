@@ -4,22 +4,27 @@ import cn.zucc.edu.entity.Course;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
+@CrossOrigin(origins = "*")
 @Repository("CourseDao")
 public class CourseDao {
+    @Autowired
 private SessionFactory sessionFactory;
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+
     //显示所有课程
     public synchronized List loadAllCourse(int teacherid){
-        return this.sessionFactory.getCurrentSession().createQuery("from Course where teacherid="+teacherid).list();
+
+        List<Course> list=(List<Course>)sessionFactory.openSession().createQuery("from Course where teacherid="+teacherid).list();
+        return list;
     }
-    public synchronized Course readCourse(int couserid){
+//显示teacherid对应的
+    public synchronized Course readCourse(int courseid){
         Session session=sessionFactory.openSession();
-        Course course=session.get(Course.class,couserid);
+        Course course=session.get(Course.class,courseid);
         return course;
     }
     //添加课程
@@ -29,6 +34,7 @@ private SessionFactory sessionFactory;
         //开启事物管理
         Transaction transaction=session.beginTransaction();
         Course course1=new Course();
+        course1.setCourseid(course.getCourseid());
         course1.setCoursename(course.getCoursename());
         course1.setTeacherid(course.getTeacherid());
         session.save(course1);

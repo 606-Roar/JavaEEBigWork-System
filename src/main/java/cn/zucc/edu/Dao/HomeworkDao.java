@@ -5,16 +5,16 @@ import cn.zucc.edu.entity.Homeworkdetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
+@CrossOrigin(origins = "*")
 @Repository("HomeworkDao")
 public class HomeworkDao {
+    @Autowired
     private SessionFactory sessionFactory;
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
     //创建作业
     public synchronized void addHomework(Homework homework){
         Session session=sessionFactory.openSession();
@@ -91,6 +91,6 @@ public class HomeworkDao {
     }
     //显示作业
     public synchronized List<Homework> loadHomework(int homeworkid){
-        return this.sessionFactory.getCurrentSession().createQuery("from Homework where homeworkid="+homeworkid).list();
+        return this.sessionFactory.openSession().createQuery("from Homework where homeworkid="+homeworkid).list();
     }
 }

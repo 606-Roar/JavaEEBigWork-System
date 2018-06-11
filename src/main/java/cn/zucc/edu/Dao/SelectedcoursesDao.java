@@ -5,17 +5,17 @@ import cn.zucc.edu.entity.Student;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @Repository("SelectedcoursesDao")
 public class SelectedcoursesDao {
+    @Autowired
     private SessionFactory sessionFactory;
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
     //显示所有上课学生
     public synchronized List<Student> loadallStudent(int courseid){
         return this.sessionFactory.getCurrentSession().createQuery("from Selectedcourses WHERE courseid="+courseid).list();

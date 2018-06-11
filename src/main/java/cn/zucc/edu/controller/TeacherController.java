@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.List;
 @CrossOrigin(origins = "*")
@@ -17,25 +18,18 @@ import java.util.List;
 public class TeacherController {
     @Autowired
     TeacherService teacherService;
-    //登录
-    @RequestMapping(value = "test")
-    @ResponseBody
-    public String Test(){
-        System.out.println("123");
-        return "1230";
-    }
+
 //登录
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public MyResponse<Teacher> Login(int teacherid, String psw) throws Exception {
-//        System.out.println("你来了");
+    public MyResponse<Teacher> Login(@RequestParam String teacherid ,@RequestParam String password) throws Exception {
         MyResponse myResponse=new MyResponse();
-        Teacher teacher=teacherService.ReadTeacher(teacherid);
+        Teacher teacher=teacherService.ReadTeacher(Integer.valueOf(teacherid).intValue());
         myResponse.setMyBody(teacher);
         if(teacher==null){
             myResponse.setMeesage("无此老师，请正确输入教工号");
         }
-        if(teacher.getPassword().equals(psw))
+        if(teacher.getPassword().equals(password))
         {
             myResponse.setCode(1);
         }

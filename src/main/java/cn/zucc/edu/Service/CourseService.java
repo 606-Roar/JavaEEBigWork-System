@@ -11,8 +11,8 @@ public class CourseService {
     @Autowired
     CourseDao courseDao;
     //显示所有课程
-    public List<Course> LoadAllCourse(int teacherid){
-        return courseDao.loadAllCourse(teacherid);
+    public List<Course> LoadAllCourse(int teacherId){
+        return courseDao.loadAllCourse(teacherId);
     }
     //显示一门课程
     public  Course ReadCourse(int couserid){

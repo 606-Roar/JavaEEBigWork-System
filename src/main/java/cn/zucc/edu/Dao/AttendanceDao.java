@@ -5,18 +5,18 @@ import cn.zucc.edu.entity.Attendancedetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @Repository("AttendanceDao")
 public class AttendanceDao {
+    @Autowired
     private SessionFactory sessionFactory;
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
     //创建点名
     public synchronized void addAttendance(Attendance attendance){
         Session session=sessionFactory.openSession();
@@ -71,7 +71,7 @@ public class AttendanceDao {
     }
     //显示某天点名详情
     public synchronized List<Attendancedetails> showAttendanceDetails(int attendanceid){
-        return this.sessionFactory.getCurrentSession().createQuery("from Attendancedetails where attendanceid="+attendanceid).list();
+        return this.sessionFactory.openSession().createQuery("from Attendancedetails where attendanceid="+attendanceid).list();
     }
     //删除某天点名
     public synchronized void delAttendance(int attendanceid ){
@@ -86,12 +86,11 @@ public class AttendanceDao {
             }
         }
         String hqlDelete="delete Attendancedetails where attendanceid=:attid";
-        //Query query=session.createQuery(hqlDelete).setParameteraattendanceid);
         session.delete(attendance);
         transaction.commit();
     }
     //显示所有点名
     public synchronized List<Attendance> loadAttendance(int attendanceid){
-        return this.sessionFactory.getCurrentSession().createQuery("from Attendance where attendanceid="+attendanceid).list();
+        return this.sessionFactory.openSession().createQuery("from Attendance where attendanceid="+attendanceid).list();
     }
 }
