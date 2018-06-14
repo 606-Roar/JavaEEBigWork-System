@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 @CrossOrigin(origins = "*")
@@ -16,17 +17,17 @@ public class SelectedcoursesDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    //显示所有上课学生
-    public synchronized List<Student> loadallStudent(int courseid){
-        return this.sessionFactory.getCurrentSession().createQuery("from Selectedcourses WHERE courseid="+courseid).list();
+    //显示course上课学生
+    public synchronized List<Student> loadAllStudent(int courseid){
+        return this.sessionFactory.openSession().createQuery("from Selectedcourses WHERE courseid="+courseid).list();
     }
-    //显示上课学生
-    public synchronized Selectedcourses readstudent(int cid){
+    //显示course的某个学生信息
+    public synchronized Selectedcourses readstudent(int studentid ){
         Session session=sessionFactory.openSession();
-        Selectedcourses selectedcourses=session.get(Selectedcourses.class,cid);
+        Selectedcourses selectedcourses=session.get(Selectedcourses.class,studentid);
         return selectedcourses;
     }
-    //添加上课学生
+    //添加选课信息
     public synchronized  void addClassStudent (Selectedcourses selectedcourses){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
@@ -36,12 +37,11 @@ public class SelectedcoursesDao {
         session.save(selectedcourses1);
         transaction.commit();
     }
-    //
+    //添加学生
     public synchronized void addStudent(Student student){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
         Student student1=new Student();
-        student1.setCourseid(student.getCourseid());
         student1.setStudentname(student.getStudentname());
         student1.setStudentid(student.getStudentid());
         session.save(student1);

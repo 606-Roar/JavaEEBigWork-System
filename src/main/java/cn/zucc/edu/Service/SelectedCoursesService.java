@@ -13,15 +13,19 @@ public class SelectedCoursesService {
     SelectedcoursesDao selectedcoursesDao;
     //显示所有上课学生
     public List<Student> LoadAllStudent(int courseid){
-        return selectedcoursesDao.loadallStudent(courseid);
+        return selectedcoursesDao.loadAllStudent(courseid);
     }
     //显示上课学生
-    public Selectedcourses ReadStudent(int cid){
-        return selectedcoursesDao.readstudent(cid);
+    public Selectedcourses ReadStudent(int studentid){
+        return selectedcoursesDao.readstudent(studentid);
     }
     //添加上课学生
     public void AddClassStudent (Selectedcourses selectedcourses){
         selectedcoursesDao.addClassStudent(selectedcourses);
+    }
+    //添加学生
+    public void AddStudent(Student student){
+        selectedcoursesDao.addStudent(student);
     }
     //删除上课学生
     public void DelStudent(int cid){

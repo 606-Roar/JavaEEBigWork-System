@@ -70,7 +70,7 @@ public class HomeworkDao {
     }
     //查看作业详情
     public synchronized List<Homeworkdetails> showHomeworkdetails(int homeworkid){
-        return this.sessionFactory.getCurrentSession().createQuery("from Homeworkdetails where homeworkid="+homeworkid).list();
+        return this.sessionFactory.openSession().createQuery("from Homeworkdetails where homeworkid="+homeworkid).list();
     }
     //删除作业
     public synchronized void delHomework(int homeworkid){

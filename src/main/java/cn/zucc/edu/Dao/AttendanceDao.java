@@ -22,6 +22,7 @@ public class AttendanceDao {
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
         Attendance attendance1=new Attendance();
+        attendance1.setAttendanceid(attendance.getAttendanceid());
         attendance1.setAttendancedate(attendance.getAttendancedate());
         attendance1.setCourseid(attendance.getCourseid());
         session.save(attendance1);
@@ -69,8 +70,8 @@ public class AttendanceDao {
         session.delete(attendancedetails1);
         transaction.commit();
     }
-    //显示某天点名详情
-    public synchronized List<Attendancedetails> showAttendanceDetails(int attendanceid){
+    //显示某次点名的详情
+    public synchronized List<Attendancedetails> loadAttendanceDetails(int attendanceid){
         return this.sessionFactory.openSession().createQuery("from Attendancedetails where attendanceid="+attendanceid).list();
     }
     //删除某天点名
@@ -89,8 +90,8 @@ public class AttendanceDao {
         session.delete(attendance);
         transaction.commit();
     }
-    //显示所有点名
-    public synchronized List<Attendance> loadAttendance(int attendanceid){
-        return this.sessionFactory.openSession().createQuery("from Attendance where attendanceid="+attendanceid).list();
+    //load课程下所有点名列表
+    public synchronized List<Attendance> loadAttendance(int courseid){
+        return this.sessionFactory.openSession().createQuery("from Attendance where attendanceid="+courseid).list();
     }
 }

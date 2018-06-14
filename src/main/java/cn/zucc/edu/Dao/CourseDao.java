@@ -68,6 +68,7 @@ private SessionFactory sessionFactory;
             }
         }
         course1.setCoursename(course.getCoursename());
+        course1.setTeacherid(course.getTeacherid());
         session.update(course1);
         transaction.commit();
     }

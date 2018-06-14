@@ -1,6 +1,7 @@
 package cn.zucc.edu.controller;
 
 import cn.zucc.edu.Service.SelectedCoursesService;
+import cn.zucc.edu.entity.Course;
 import cn.zucc.edu.entity.Selectedcourses;
 import cn.zucc.edu.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,37 +16,42 @@ import java.util.List;
 public class SelectedcoursesController {
     @Autowired
     SelectedCoursesService selectedCoursesService;
-    //显示所有上课学生
+    //显示某课程的选课信息列表
     @RequestMapping("/LoadAllStudent")
     @ResponseBody
-    public List<Student> LoadAllStudent(int courseid){
-        return selectedCoursesService.LoadAllStudent(courseid);
+    public List<Student> LoadAllStudent(@RequestBody Course course){
+        return selectedCoursesService.LoadAllStudent(course.getCourseid());
     }
-    //显示某个上课学生
+    //显示某个上课学生信息
     @RequestMapping("/Selectedcourses")
     @ResponseBody
-    public Selectedcourses ReadStudent(int cid){
-        return selectedCoursesService.ReadStudent(cid);
+    public Selectedcourses ReadStudent(@RequestBody Selectedcourses selectedcourses){
+        return selectedCoursesService.ReadStudent(selectedcourses.getStudentid());
     }
-    //添加上课学生
+    //添加某课程的选课信息以及对应的学生信息
     @RequestMapping("/AddClassStudent")
     @ResponseBody
-    public String AddClassStudent (@RequestBody Selectedcourses selectedcourses){
-        selectedCoursesService.AddClassStudent(selectedcourses);
+    public String AddClassStudent (@RequestBody List<Selectedcourses> selectedcourses, @RequestBody List<Student> student){
+       for (Selectedcourses selectedcourses1:selectedcourses){
+        selectedCoursesService.AddClassStudent(selectedcourses1);}
+        for (Student student1:student){
+        selectedCoursesService.AddStudent(student1);}
         return "ok";
     }
     //删除上课学生
     @RequestMapping("/DelStudent")
     @ResponseBody
-    public String DelStudent(int cid){
-        selectedCoursesService.DelStudent(cid);
+    public String DelStudent(@RequestBody List<Student> student){
+        for(Student student1:student){
+        selectedCoursesService.DelStudent(student1.getSid());}
         return "ok";
     }
     //修改成绩
     @RequestMapping("/ModifyStudentScore")
     @ResponseBody
-    public String ModifyStudentScore(@RequestBody Selectedcourses selectedcourses){
-        selectedCoursesService.ModifyStudentScore(selectedcourses);
+    public String ModifyStudentScore(@RequestBody List<Selectedcourses> selectedcourses){
+        for (Selectedcourses selectedcourses1:selectedcourses){
+        selectedCoursesService.ModifyStudentScore(selectedcourses1);}
         return "ok";
     }
     //成绩输入

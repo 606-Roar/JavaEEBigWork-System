@@ -38,11 +38,11 @@ public class TeacherDao {
         session.save(teacher);
         transaction.commit();
     }
-    //删除老师
-    public synchronized void delteacher(int userid ){
+    //删除老师1
+    public synchronized void delteacher(int teacherid ){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
-        Teacher teacher=session.get(Teacher.class,userid);
+        Teacher teacher=session.get(Teacher.class,teacherid);
             if(teacher==null){
                 try {
                     throw new Exception("此老师不存在");

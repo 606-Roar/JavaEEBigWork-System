@@ -28,15 +28,15 @@ public class AttendanceService {
         attendanceDao.delAttendanceDetails(attendancedetails);
     }
     //显示某天点名详情
-    public List<Attendancedetails> showAttendanceDetails(int attendanceid){
-        return attendanceDao.showAttendanceDetails(attendanceid);
+    public List<Attendancedetails> loadAttendanceDetails(int attendanceid){
+        return attendanceDao.loadAttendanceDetails(attendanceid);
     }
     //删除某天点名
     public void delAttendance(int attendanceid ){
         attendanceDao.delAttendance(attendanceid);
     }
     //显示所有点名
-    public List<Attendance> loadAttendance(int attendanceid){
-        return attendanceDao.loadAttendance(attendanceid);
+    public List<Attendance> loadAttendance(int courseid){
+        return attendanceDao.loadAttendance(courseid);
     }
 }
