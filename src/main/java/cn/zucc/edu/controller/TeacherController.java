@@ -61,12 +61,16 @@ public class TeacherController {
         myResponse.setMyBody(teacher);
         return myResponse;
     }
-    //添加老师
+    //对提交的教师表单进行操作，有可能是添加修改删除
+    //我是直接全删光然后把传来的加回去
     @RequestMapping("/AddTeacher")
     @ResponseBody
-    public MyResponse<List<Teacher>> AddTeacher(@RequestBody List<Teacher> addTeacher,@RequestBody List<Teacher> delTeacher,@RequestBody List<Teacher> modifyTeacher){
+    public MyResponse<List<Teacher>> AddTeacher(@RequestBody List<Teacher> teachers){
         MyResponse<List<Teacher>> myResponse=new MyResponse<List<Teacher>>();
-        for(Teacher teacher1:addTeacher){
+        //删除所有信息
+        teacherService.DelAllTeacher();
+        //插入传来的新表
+        for(Teacher teacher1:teachers){
              teacher1=teacherService.ReadTeacher(teacher1.getTeacherid());
             if(teacher1==null)
             {
@@ -76,25 +80,9 @@ public class TeacherController {
             else{
                 myResponse.setMeesage(myResponse.getMeesage()+teacher1.getTeacherid()+"id重复，添加失败。");
             }
-            myResponse.setCode(1);
             myResponse.setMeesage(myResponse.getMeesage()+"添加操作完成。");
         }
-        for (Teacher teacher2:delTeacher) {
-            teacher2 = teacherService.ReadTeacher(teacher2.getTeacherid());
-            if(teacher2!=null)
-            {
-                teacherService.DelTeacher(teacher2.getTeacherid());
-                myResponse.setMeesage(myResponse.getMeesage()+teacher2.getTeacherid()+"删除成功。");
-            }
-            else {
-                myResponse.setMeesage(myResponse.getMeesage()+"删除失败。");
-            }
-        }
-        for (Teacher teacher3:modifyTeacher)
-        {
-            teacherService.ModifyTeacher(teacher3);
-            myResponse.setMeesage(myResponse.getMeesage()+teacher3.getTeacherid()+"修改成功。");
-        }
+        myResponse.setCode(1);
         return myResponse;
     }
 //    //删除老师

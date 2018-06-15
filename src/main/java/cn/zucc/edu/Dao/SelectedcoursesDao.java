@@ -22,7 +22,7 @@ public class SelectedcoursesDao {
         return this.sessionFactory.openSession().createQuery("from Selectedcourses WHERE courseid="+courseid).list();
     }
     //显示course的某个学生信息
-    public synchronized Selectedcourses readstudent(int studentid ){
+    public synchronized Selectedcourses readStudent(int studentid ){
         Session session=sessionFactory.openSession();
         Selectedcourses selectedcourses=session.get(Selectedcourses.class,studentid);
         return selectedcourses;

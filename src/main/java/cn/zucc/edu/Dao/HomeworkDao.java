@@ -26,7 +26,25 @@ public class HomeworkDao {
         session.save(homework1);
         transaction.commit();
     }
-    //添加作业详情
+    //修改作业的时间等
+    public  synchronized  void modifHomework(Homework homework)
+    {
+        Session session=sessionFactory.openSession();
+        Transaction transaction=session.beginTransaction();
+        Homework homework1=session.get(Homework.class,homework.getHomeworkid());
+        if(homework1==null){
+            try {
+                throw new Exception("此作业不存在");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        homework1.setHomeworkstartdate(homework.getHomeworkstartdate());
+        homework1.setHomeworkenddate(homework.getHomeworkenddate());
+        session.update(homework1);
+        transaction.commit();
+    }
+    //提交作业，添加作业详情
     public synchronized void addHomeworkDetails(Homeworkdetails homeworkdetails){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
@@ -37,7 +55,7 @@ public class HomeworkDao {
         session.save(homeworkdetails1);
         transaction.commit();
     }
-    //修改作业详情
+    //再次提交作业，修改作业详情
     public  synchronized void modifyHomeworkDetails(Homeworkdetails homeworkdetails){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
@@ -69,7 +87,7 @@ public class HomeworkDao {
         transaction.commit();
     }
     //查看作业详情
-    public synchronized List<Homeworkdetails> showHomeworkdetails(int homeworkid){
+    public synchronized List<Homeworkdetails> loadHomeworkdetails(int homeworkid){
         return this.sessionFactory.openSession().createQuery("from Homeworkdetails where homeworkid="+homeworkid).list();
     }
     //删除作业
@@ -84,13 +102,11 @@ public class HomeworkDao {
                 e.printStackTrace();
             }
         }
-        String delhql="delete Homeworkdetails where homeworkid=:homeid";
-        //
         session.delete(homework);
         transaction.commit();
     }
     //显示作业
-    public synchronized List<Homework> loadHomework(int homeworkid){
-        return this.sessionFactory.openSession().createQuery("from Homework where homeworkid="+homeworkid).list();
+    public synchronized List<Homework> loadHomework(int courseid){
+        return this.sessionFactory.openSession().createQuery("from Homework where homeworkid="+courseid).list();
     }
 }

@@ -20,14 +20,16 @@ public class TeacherService {
     }
     //添加老师
     public void AddTeacher(Teacher teacher){
-        teacherDao.addteacher(teacher);
+        teacherDao.addTeacher(teacher);
     }
     //删除老师
     public void DelTeacher(int teacherid ){
-        teacherDao.delteacher(teacherid);
+        teacherDao.delTeacher(teacherid);
     }
     //修改老师信息
     public void ModifyTeacher(Teacher teacher){
-        teacherDao.modifyteacher(teacher);
+        teacherDao.modifyTeacher(teacher);
     }
+    //删除所有老师信息
+    public  void  DelAllTeacher(){teacherDao.delAllTeacher();}
 }

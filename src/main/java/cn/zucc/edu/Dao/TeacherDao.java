@@ -20,13 +20,13 @@ public class TeacherDao {
     return this.sessionFactory.openSession().createQuery("from Teacher").list();
     }
     //通过id查看老师
-    public synchronized Teacher readTeacher(int teacherid){
+    public synchronized Teacher readTeacher(int teacherId){
         Session session=sessionFactory.openSession();
-        Teacher teacher=session.get(Teacher.class,teacherid);
+        Teacher teacher=session.get(Teacher.class,teacherId);
         return teacher;
     }
     //添加老师
-    public synchronized void addteacher(Teacher user){
+    public synchronized void addTeacher(Teacher user){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
         Teacher teacher=new Teacher();
@@ -39,10 +39,10 @@ public class TeacherDao {
         transaction.commit();
     }
     //删除老师1
-    public synchronized void delteacher(int teacherid ){
+    public synchronized void delTeacher(int teacherId ){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
-        Teacher teacher=session.get(Teacher.class,teacherid);
+        Teacher teacher=session.get(Teacher.class,teacherId);
             if(teacher==null){
                 try {
                     throw new Exception("此老师不存在");
@@ -54,7 +54,7 @@ public class TeacherDao {
             transaction.commit();
     }
     //修改老师信息
-    public synchronized void modifyteacher(Teacher teacher){
+    public synchronized void modifyTeacher(Teacher teacher){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
         Teacher teacher1=session.get(Teacher.class,teacher.getTeacherid());
@@ -70,5 +70,9 @@ public class TeacherDao {
         teacher1.setTeachername(teacher.getTeachername());
         session.update(teacher1);
         transaction.commit();
+    }
+    //删除老师表中所有数据
+    public synchronized  void  delAllTeacher(){
+        sessionFactory.openSession().createQuery("delete from Teacher where 1=1");
     }
 }

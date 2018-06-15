@@ -1,6 +1,7 @@
 package cn.zucc.edu.controller;
 
 import cn.zucc.edu.Service.SelectedCoursesService;
+import cn.zucc.edu.Util.MyResponse;
 import cn.zucc.edu.entity.Course;
 import cn.zucc.edu.entity.Selectedcourses;
 import cn.zucc.edu.entity.Student;
@@ -19,46 +20,65 @@ public class SelectedcoursesController {
     //显示某课程的选课信息列表
     @RequestMapping("/LoadAllStudent")
     @ResponseBody
-    public List<Student> LoadAllStudent(@RequestBody Course course){
-        return selectedCoursesService.LoadAllStudent(course.getCourseid());
+    public MyResponse<List<Student>> LoadAllStudent(@RequestBody Course course){
+        MyResponse<List<Student>> myResponse=new MyResponse<List<Student>>();
+        myResponse.setCode(1);
+        myResponse.setMyBody(selectedCoursesService.LoadAllStudent(course.getCourseid()));
+        return myResponse;
     }
-    //显示某个上课学生信息
+    //显示某个上课学生的成绩等信息
     @RequestMapping("/Selectedcourses")
     @ResponseBody
-    public Selectedcourses ReadStudent(@RequestBody Selectedcourses selectedcourses){
-        return selectedCoursesService.ReadStudent(selectedcourses.getStudentid());
+    public MyResponse<Selectedcourses> ReadStudent(@RequestBody Selectedcourses selectedcourses){
+        MyResponse<Selectedcourses> myResponse=new MyResponse<Selectedcourses>();
+        myResponse.setCode(1);
+        myResponse.setMyBody(selectedCoursesService.ReadStudent(selectedcourses.getStudentid()));
+        return myResponse;
     }
     //添加某课程的选课信息以及对应的学生信息
     @RequestMapping("/AddClassStudent")
     @ResponseBody
-    public String AddClassStudent (@RequestBody List<Selectedcourses> selectedcourses, @RequestBody List<Student> student){
+    public MyResponse AddClassStudent (@RequestBody List<Selectedcourses> selectedcourses, @RequestBody List<Student> student){
+        MyResponse myResponse=new MyResponse();
        for (Selectedcourses selectedcourses1:selectedcourses){
-        selectedCoursesService.AddClassStudent(selectedcourses1);}
+        selectedCoursesService.AddClassStudent(selectedcourses1);
+       }
         for (Student student1:student){
-        selectedCoursesService.AddStudent(student1);}
-        return "ok";
+        selectedCoursesService.AddStudent(student1);
+       }
+        myResponse.setCode(1);
+        return myResponse;
     }
     //删除上课学生
     @RequestMapping("/DelStudent")
     @ResponseBody
-    public String DelStudent(@RequestBody List<Student> student){
+    public MyResponse DelStudent(@RequestBody List<Student> student){
+        MyResponse myResponse=new MyResponse();
         for(Student student1:student){
         selectedCoursesService.DelStudent(student1.getSid());}
-        return "ok";
+        myResponse.setCode(1);
+        return myResponse;
     }
     //修改成绩
     @RequestMapping("/ModifyStudentScore")
     @ResponseBody
-    public String ModifyStudentScore(@RequestBody List<Selectedcourses> selectedcourses){
+    public MyResponse ModifyStudentScore(@RequestBody List<Selectedcourses> selectedcourses){
+        MyResponse myResponse=new MyResponse();
         for (Selectedcourses selectedcourses1:selectedcourses){
-        selectedCoursesService.ModifyStudentScore(selectedcourses1);}
-        return "ok";
+        selectedCoursesService.ModifyStudentScore(selectedcourses1);
+        }
+        myResponse.setCode(1);
+        return myResponse;
     }
     //成绩输入
     @RequestMapping("/AddScore")
     @ResponseBody
-    public String AddScore(@RequestBody Selectedcourses selectedcourses){
-        selectedCoursesService.AddScore(selectedcourses);
-        return "ok";
+    public MyResponse AddScore(@RequestBody List<Selectedcourses> selectedcourses){
+        MyResponse myResponse=new MyResponse();
+        for (Selectedcourses selectedcourses1:selectedcourses) {
+            selectedCoursesService.AddScore(selectedcourses1);
+        }
+        myResponse.setCode(1);
+        return myResponse;
     }
 }

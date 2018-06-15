@@ -15,14 +15,17 @@ import java.util.List;
 public class CourseController {
     @Autowired
     CourseService courseService;
-    //显示所有课程
+    //显示某老师的所有课程
     @RequestMapping(value = "/LoadAllCourse",method = RequestMethod.POST)
     @ResponseBody
-    public List<Course> LoadAllCourse(@RequestBody Teacher teacher)
+    public MyResponse<List<Course>> LoadAllCourse(@RequestBody Teacher teacher)
     {
-       return courseService.LoadAllCourse(Integer.valueOf(teacher.getTeacherid()).intValue());
+       MyResponse<List<Course>> myResponse =new MyResponse<List<Course>>();
+        myResponse.setMyBody(courseService.LoadAllCourse(Integer.valueOf(teacher.getTeacherid()).intValue()));
+        myResponse.setCode(1);
+        return myResponse;
     }
-    //显示一门课程
+    //显示某一门课程的
     @RequestMapping("/ReadCourse")
     @ResponseBody
     public Course ReadCourse(@RequestBody Course course){

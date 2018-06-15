@@ -27,16 +27,18 @@ public class HomeworkService {
     public void delHomeworkDetails(Homeworkdetails homeworkdetails){
         homeworkDao.delHomeworkDetails(homeworkdetails);
     }
-    //查看作业详情
-    public  List<Homeworkdetails> showHomeworkdetails(int homeworkid){
-        return homeworkDao.showHomeworkdetails(homeworkid);
-    }
+
     //删除作业
     public void delHomework(int homeworkid){
         homeworkDao.delHomework(homeworkid);
     }
     //显示作业
-    public List<Homework> loadHomework(int homeworkid){
-        return homeworkDao.loadHomework(homeworkid);
+    public List<Homework> loadAllHomework(int courseid){
+        return homeworkDao.loadHomework(courseid);
     }
+    //查看作业详情
+    public  List<Homeworkdetails> loadAllHomeworkdetails(int homeworkid){
+        return homeworkDao.loadHomeworkdetails(homeworkid);
+    }
+
 }
