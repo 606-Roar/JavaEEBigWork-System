@@ -32,6 +32,7 @@ public class CourseController {
      return courseService.ReadCourse(course.getCourseid());
     }
     //添加课程
+    //返回课程列表,coursename
     @RequestMapping(value = "/AddCourse",method = RequestMethod.POST)
     @ResponseBody
         public MyResponse<List<Course>> AddCourse(@RequestBody List<Course> course){

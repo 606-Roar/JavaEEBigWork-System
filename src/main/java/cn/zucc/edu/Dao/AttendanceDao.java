@@ -17,17 +17,19 @@ public class AttendanceDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    //创建点名
-    public synchronized void addAttendance(Attendance attendance){
+    //创建点名,返回attendanceid
+    public synchronized int addAttendance(Attendance attendance){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
         Attendance attendance1=new Attendance();
-        attendance1.setAttendanceid(attendance.getAttendanceid());
         attendance1.setAttendancedate(attendance.getAttendancedate());
         attendance1.setCourseid(attendance.getCourseid());
-        session.save(attendance1);
+        int attendanceId=(Integer)session.save(attendance1);
         transaction.commit();
+        return attendanceId;
     }
+    //查看点名
+
     //添加点名详情
     public synchronized void addAttendanceDetails(Attendancedetails attendancedetails){
         Session session=sessionFactory.openSession();

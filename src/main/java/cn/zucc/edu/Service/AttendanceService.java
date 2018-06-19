@@ -12,8 +12,8 @@ public class AttendanceService {
 @Autowired
     AttendanceDao attendanceDao;
     //创建点名
-    public void addAttendance(Attendance attendance){
-        attendanceDao.addAttendance(attendance);
+    public int addAttendance(Attendance attendance){
+        return attendanceDao.addAttendance(attendance);
     }
     //添加点名详情
     public void addAttendanceDetails(Attendancedetails attendancedetails){
@@ -27,7 +27,7 @@ public class AttendanceService {
     public void delAttendanceDetails(Attendancedetails attendancedetails){
         attendanceDao.delAttendanceDetails(attendancedetails);
     }
-    //显示某天点名详情
+    //显示某次点名详情
     public List<Attendancedetails> loadAttendanceDetails(int attendanceid){
         return attendanceDao.loadAttendanceDetails(attendanceid);
     }

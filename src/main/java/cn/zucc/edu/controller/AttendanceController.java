@@ -1,14 +1,16 @@
 package cn.zucc.edu.controller;
 
+import cn.zucc.edu.BackEntity.Backattendancedetails;
 import cn.zucc.edu.Service.AttendanceService;
+import cn.zucc.edu.Service.SelectedCoursesService;
+import cn.zucc.edu.Service.StudentService;
 import cn.zucc.edu.Util.MyResponse;
-import cn.zucc.edu.entity.Attendance;
-import cn.zucc.edu.entity.Attendancedetails;
-import cn.zucc.edu.entity.Course;
+import cn.zucc.edu.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -16,7 +18,9 @@ import java.util.List;
 public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
-//显示某门课程的考情信息，有那几次考勤等
+    StudentService studentService;
+    SelectedCoursesService selectedCoursesService;
+    //显示某门课程的考勤列表，有那几次考勤等
     @RequestMapping(value = "/LoadAllAttendance",method = RequestMethod.POST)
     @ResponseBody
     public MyResponse<List<Attendance>> LoadAllAttendance(@RequestBody Course course)
@@ -27,25 +31,58 @@ public class AttendanceController {
         return myResponse;
     }
     //显示某次考勤的信息列表，某学生是否出席等
+    //返回Backattendancedetails列表
+    //studentid,studentname,attendancedetail
     @RequestMapping(value = "/LoadAllAttendanceDetails",method = RequestMethod.POST)
     @ResponseBody
-    public MyResponse<List<Attendancedetails>> LoadAllAttendanceDetails(@RequestBody Attendance attendance)
+    public MyResponse<List<Backattendancedetails>> LoadAllAttendanceDetails(@RequestBody Attendance attendance)
     {
-        MyResponse<List<Attendancedetails>> myResponse=new MyResponse<List<Attendancedetails>>();
-        myResponse.setMyBody(attendanceService.loadAttendanceDetails(attendance.getAttendanceid()));
+        MyResponse<List<Backattendancedetails>> myResponse=new MyResponse<List<Backattendancedetails>>();
+        List<Backattendancedetails> list=new ArrayList<Backattendancedetails>();
+        for (Attendancedetails attendancedetails:attendanceService.loadAttendanceDetails(attendance.getAttendanceid()))
+        {
+            Backattendancedetails backattendancedetails=new Backattendancedetails();
+            backattendancedetails.setStudentid(attendancedetails.getStudentid());
+            backattendancedetails.setAttendancedetail(attendancedetails.getAttendancedetail());
+            backattendancedetails.setStudentname(studentService.findStudentByID(attendancedetails.getStudentid()).getStudentname());
+            list.add(backattendancedetails);
+        }
+        myResponse.setCode(1);
+        myResponse.setMyBody(list);
         return myResponse;
     }
-    //添加一次考勤记录
+    //添加一次考勤记录，返回attendanceid->i用于给创建attendancedetail
+    //此时会新建一条attendace记录，并且添加这个班上所有学生的attendacedetail记录
+    //返回船新的Backattendancedetails列表
     @RequestMapping(value = "/AddAttendance",method = RequestMethod.POST)
     @ResponseBody
-    public MyResponse AddAttendance(@RequestBody Attendance attendance)
+    public MyResponse<List<Backattendancedetails>> AddAttendance(@RequestBody Attendance attendance)
     {
-        MyResponse<List<Attendance>> myResponse=new MyResponse();
-        myResponse.setCode(1);
-       attendanceService.addAttendance(attendance);
-        return myResponse;
+        MyResponse<List<Backattendancedetails>> myResponse=new MyResponse<List<Backattendancedetails>>();
+        List<Backattendancedetails> list=new ArrayList<Backattendancedetails>();
+        //添加一次attendance记录
+       int i=attendanceService.addAttendance(attendance);
+       //先通过attendace中的courseid找到所有上这门课的学生
+       for (Student student:selectedCoursesService.LoadAllStudent(i))
+       {
+           //添加每个学生的一条Attendancedetail记录
+           Attendancedetails attendancedetails=new Attendancedetails();
+           attendancedetails.setAttendanceid(i);
+           attendancedetails.setStudentid(student.getStudentid());
+           attendancedetails.setAttendancedetail("undefined");
+           attendanceService.addAttendanceDetails(attendancedetails);
+           //向前端返回Backattendancedetails列表
+           Backattendancedetails backattendancedetails=new Backattendancedetails();
+           backattendancedetails.setStudentid(student.getStudentid());
+           backattendancedetails.setAttendancedetail("undefined");
+           backattendancedetails.setStudentname(studentService.findStudentByID(student.getStudentid()).getStudentname());
+           list.add(backattendancedetails);
+       }
+       myResponse.setCode(1);
+       myResponse.setMyBody(list);
+       return myResponse;
     }
-    //添加考勤详情
+    //添加考勤详情,目前看用不到
     @RequestMapping(value = "/AddAttendanceDetails",method = RequestMethod.POST)
     @ResponseBody
     public MyResponse AddAttendanceDetails(@RequestBody List<Attendancedetails> attendancedetails)
@@ -57,7 +94,7 @@ public class AttendanceController {
         }
         return myResponse;
     }
-    //修改一次考勤的详情
+    //进行一次点名或者说修改点名表中信息
     @RequestMapping(value = "modifyAttdendanceDetails",method = RequestMethod.POST)
     @ResponseBody
     public MyResponse ModifyAttendanceDetails(@RequestBody List<Attendancedetails> attendancedetails)
