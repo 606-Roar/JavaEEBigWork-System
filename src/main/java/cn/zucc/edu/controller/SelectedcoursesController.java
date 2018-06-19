@@ -7,21 +7,19 @@ import cn.zucc.edu.entity.Selectedcourses;
 import cn.zucc.edu.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @Controller
 public class SelectedcoursesController {
     @Autowired
     SelectedCoursesService selectedCoursesService;
     //显示某课程的选课信息列表
-    @RequestMapping("/LoadAllStudent")
+    @RequestMapping(value = "/LoadAllStudent",method = RequestMethod.POST)
     @ResponseBody
-    public MyResponse<List<Student>> LoadAllStudent(@RequestBody Course course){
-        MyResponse<List<Student>> myResponse=new MyResponse<List<Student>>();
+    public MyResponse<List<Selectedcourses>> LoadAllStudent(@RequestBody Course course){
+        MyResponse<List<Selectedcourses>> myResponse=new MyResponse<List<Selectedcourses>>();
         myResponse.setCode(1);
         myResponse.setMyBody(selectedCoursesService.LoadAllStudent(course.getCourseid()));
         return myResponse;

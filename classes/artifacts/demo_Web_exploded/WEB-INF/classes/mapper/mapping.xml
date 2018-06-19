@@ -5,7 +5,9 @@
 <hibernate-mapping>
 
     <class name="cn.zucc.edu.entity.Attendance" table="attendance" schema="grade">
-        <id name="attendanceid" column="attendanceid"/>
+        <id name="attendanceid" column="attendanceid" >
+            <generator class="native"></generator>
+        </id>
         <property name="attendancedate" column="attendancedate"/>
         <property name="courseid" column="courseid"/>
     </class>

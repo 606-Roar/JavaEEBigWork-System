@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
           <!-- hibernate.connection.driver_class : 连接数据库的驱动  -->
-        <!--<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>-->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
           <!-- hibernate.connection.username : 连接数据库的用户名 -->
         <!-- hibernate.connection.password : 连接数据库的密码 -->
         <!-- hibernate.connection.url : 连接数据库的地址,路径 -->
@@ -26,8 +26,6 @@
         <!--<mapping resource="cn/zucc/edu/*.hbm.xml"/>-->
         <!-- 指定自动生成数据表的策略 -->
         <property name="hbm2ddl.auto">update</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/grade</property>
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <mapping resource="mapper/mapping.xml"/>
         <mapping class="cn.zucc.edu.entity.Attendance"/>
         <mapping class="cn.zucc.edu.entity.Attendancedetails"/>

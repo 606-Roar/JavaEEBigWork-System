@@ -18,7 +18,7 @@ public class SelectedcoursesDao {
     private SessionFactory sessionFactory;
 
     //显示course上课学生
-    public synchronized List<Student> loadAllStudent(int courseid){
+    public synchronized List<Selectedcourses> loadAllStudent(int courseid){
         return this.sessionFactory.openSession().createQuery("from Selectedcourses WHERE courseid="+courseid).list();
     }
     //显示course的某个学生信息

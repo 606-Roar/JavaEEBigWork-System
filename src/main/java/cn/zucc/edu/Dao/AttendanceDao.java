@@ -24,6 +24,7 @@ public class AttendanceDao {
         Attendance attendance1=new Attendance();
         attendance1.setAttendancedate(attendance.getAttendancedate());
         attendance1.setCourseid(attendance.getCourseid());
+
         int attendanceId=(Integer)session.save(attendance1);
         transaction.commit();
         return attendanceId;

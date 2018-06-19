@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin(origins = "*")
-@Repository("CourseDao")
+@Repository("StudentDao")
 public class StudentDao {
     @Autowired
     SessionFactory sessionFactory;

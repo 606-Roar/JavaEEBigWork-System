@@ -12,7 +12,7 @@ public class SelectedCoursesService {
     @Autowired
     SelectedcoursesDao selectedcoursesDao;
     //显示所有上课学生
-    public List<Student> LoadAllStudent(int courseId){
+    public List<Selectedcourses> LoadAllStudent(int courseId){
         return selectedcoursesDao.loadAllStudent(courseId);
     }
     //显示上课学生

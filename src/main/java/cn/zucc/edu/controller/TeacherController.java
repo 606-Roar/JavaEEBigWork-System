@@ -13,74 +13,79 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.List;
+
 @CrossOrigin(origins = "*")
 @Controller()
 public class TeacherController {
     @Autowired
     TeacherService teacherService;
 
-//登录
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    //登录
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public MyResponse<Teacher> Login(@RequestBody Teacher teacher) throws Exception {
-        MyResponse myResponse=new MyResponse();
-        Teacher teacher1=teacherService.ReadTeacher(teacher.getTeacherid());
+        MyResponse myResponse = new MyResponse();
+        Teacher teacher1 = teacherService.ReadTeacher(teacher.getTeacherid());
+        System.out.println("id:"+teacher.getTeacherid());
         myResponse.setMyBody(teacher1);
-        if(teacher1==null){
+        if (teacher1 == null) {
             myResponse.setMeesage("无此老师，请正确输入教工号");
+        } else {
+            if (teacher1.getPassword().equals(teacher.getPassword())) {
+                myResponse.setCode(1);
+            } else {
+                myResponse.setMeesage("密码错误");
+            }
         }
-        if(teacher1.getPassword().equals(teacher.getPassword()))
-        {
-            myResponse.setCode(1);
-        }
-        else {
-            myResponse.setMeesage("密码错误");
-        }
+
         System.out.println("你来了");
         return myResponse;
     }
+
     //显示所有老师
     @RequestMapping("/LoadAllTeacher")
     @ResponseBody
-    public List<Teacher> LoadAllTeacher(){
-        return teacherService.LoadAllTeacher();
+    public MyResponse<List<Teacher>>  LoadAllTeacher() {
+        MyResponse myResponse=new MyResponse();
+        myResponse.setCode(1);
+        myResponse.setMyBody(teacherService.LoadAllTeacher());
+        return myResponse;
     }
+
     //显示某个老师
-    @RequestMapping(value = "/ReadTeacher",method = RequestMethod.POST)
+    @RequestMapping(value = "/ReadTeacher", method = RequestMethod.POST)
     @ResponseBody
-    public  MyResponse<Teacher> ReadTeacher(String teacherid) {
+    public MyResponse<Teacher> ReadTeacher(String teacherid) {
         System.out.println(teacherid);
-        MyResponse<Teacher> myResponse=new MyResponse<Teacher>();
-        Teacher teacher=teacherService.ReadTeacher(Integer.valueOf(teacherid).intValue());
-        if(teacher==null){
+        MyResponse<Teacher> myResponse = new MyResponse<Teacher>();
+        Teacher teacher = teacherService.ReadTeacher(Integer.valueOf(teacherid).intValue());
+        if (teacher == null) {
             myResponse.setMeesage("老师不存在");
-        }
-        else {
+        } else {
             myResponse.setCode(1);
         }
         myResponse.setMyBody(teacher);
         return myResponse;
     }
+
     //对提交的教师表单进行操作，有可能是添加修改删除
     //我是直接全删光然后把传来的加回去
     @RequestMapping("/AddTeacher")
     @ResponseBody
-    public MyResponse<List<Teacher>> AddTeacher(@RequestBody List<Teacher> teachers){
-        MyResponse<List<Teacher>> myResponse=new MyResponse<List<Teacher>>();
+    public MyResponse<List<Teacher>> AddTeacher(@RequestBody List<Teacher> teachers) {
+        MyResponse<List<Teacher>> myResponse = new MyResponse<List<Teacher>>();
         //删除所有信息
         teacherService.DelAllTeacher();
         //插入传来的新表
-        for(Teacher teacher1:teachers){
-             teacher1=teacherService.ReadTeacher(teacher1.getTeacherid());
-            if(teacher1==null)
-            {
+        for (Teacher teacher1 : teachers) {
+            teacher1 = teacherService.ReadTeacher(teacher1.getTeacherid());
+            if (teacher1 == null) {
                 teacherService.AddTeacher(teacher1);
-                myResponse.setMeesage(myResponse.getMeesage()+teacher1.getTeacherid()+"添加成功。");
+                myResponse.setMeesage(myResponse.getMeesage() + teacher1.getTeacherid() + "添加成功。");
+            } else {
+                myResponse.setMeesage(myResponse.getMeesage() + teacher1.getTeacherid() + "id重复，添加失败。");
             }
-            else{
-                myResponse.setMeesage(myResponse.getMeesage()+teacher1.getTeacherid()+"id重复，添加失败。");
-            }
-            myResponse.setMeesage(myResponse.getMeesage()+"添加操作完成。");
+            myResponse.setMeesage(myResponse.getMeesage() + "添加操作完成。");
         }
         myResponse.setCode(1);
         return myResponse;

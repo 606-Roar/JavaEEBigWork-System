@@ -18,7 +18,11 @@ import java.util.List;
 public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
+
+    @Autowired
     StudentService studentService;
+
+    @Autowired
     SelectedCoursesService selectedCoursesService;
     //显示某门课程的考勤列表，有那几次考勤等
     @RequestMapping(value = "/LoadAllAttendance",method = RequestMethod.POST)
@@ -56,14 +60,14 @@ public class AttendanceController {
     //返回船新的Backattendancedetails列表
     @RequestMapping(value = "/AddAttendance",method = RequestMethod.POST)
     @ResponseBody
-    public MyResponse<List<Backattendancedetails>> AddAttendance(@RequestBody Attendance attendance)
+    public MyResponse AddAttendance(@RequestBody Attendance attendance)
     {
-        MyResponse<List<Backattendancedetails>> myResponse=new MyResponse<List<Backattendancedetails>>();
+        MyResponse myResponse=new MyResponse<List<Backattendancedetails>>();
         List<Backattendancedetails> list=new ArrayList<Backattendancedetails>();
         //添加一次attendance记录
        int i=attendanceService.addAttendance(attendance);
        //先通过attendace中的courseid找到所有上这门课的学生
-       for (Student student:selectedCoursesService.LoadAllStudent(i))
+       for (Selectedcourses student:selectedCoursesService.LoadAllStudent(attendance.getCourseid()))
        {
            //添加每个学生的一条Attendancedetail记录
            Attendancedetails attendancedetails=new Attendancedetails();
@@ -79,7 +83,7 @@ public class AttendanceController {
            list.add(backattendancedetails);
        }
        myResponse.setCode(1);
-       myResponse.setMyBody(list);
+       myResponse.setMyBody(i);
        return myResponse;
     }
     //添加考勤详情,目前看用不到

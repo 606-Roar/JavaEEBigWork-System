@@ -22,6 +22,7 @@ public class CourseController {
     {
        MyResponse<List<Course>> myResponse =new MyResponse<List<Course>>();
         myResponse.setMyBody(courseService.LoadAllCourse(Integer.valueOf(teacher.getTeacherid()).intValue()));
+        System.out.println();
         myResponse.setCode(1);
         return myResponse;
     }
