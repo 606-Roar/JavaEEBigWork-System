@@ -3,6 +3,25 @@ package cn.zucc.edu.BackEntity;
 import java.sql.Date;
 
 public class Backattendancedetails {
+    private int nid;
+    private int attendanceid;
+
+    public int getNid() {
+        return nid;
+    }
+
+    public void setNid(int nid) {
+        this.nid = nid;
+    }
+
+    public int getAttendanceid() {
+        return attendanceid;
+    }
+
+    public void setAttendanceid(int attendanceid) {
+        this.attendanceid = attendanceid;
+    }
+
     private int studentid;
     private String studentname;
     private String attendancedetail;

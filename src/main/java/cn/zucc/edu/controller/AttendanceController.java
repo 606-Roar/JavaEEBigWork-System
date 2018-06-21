@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +19,8 @@ import java.util.List;
 public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
-
     @Autowired
     StudentService studentService;
-
     @Autowired
     SelectedCoursesService selectedCoursesService;
     //显示某门课程的考勤列表，有那几次考勤等
@@ -48,6 +47,8 @@ public class AttendanceController {
             Backattendancedetails backattendancedetails=new Backattendancedetails();
             backattendancedetails.setStudentid(attendancedetails.getStudentid());
             backattendancedetails.setAttendancedetail(attendancedetails.getAttendancedetail());
+            backattendancedetails.setNid(attendancedetails.getNid());
+            backattendancedetails.setAttendanceid(attendancedetails.getAttendanceid());
             backattendancedetails.setStudentname(studentService.findStudentByID(attendancedetails.getStudentid()).getStudentname());
             list.add(backattendancedetails);
         }
@@ -57,7 +58,6 @@ public class AttendanceController {
     }
     //添加一次考勤记录，返回attendanceid->i用于给创建attendancedetail
     //此时会新建一条attendace记录，并且添加这个班上所有学生的attendacedetail记录
-    //返回船新的Backattendancedetails列表
     @RequestMapping(value = "/AddAttendance",method = RequestMethod.POST)
     @ResponseBody
     public MyResponse AddAttendance(@RequestBody Attendance attendance)
@@ -65,6 +65,7 @@ public class AttendanceController {
         MyResponse myResponse=new MyResponse<List<Backattendancedetails>>();
         List<Backattendancedetails> list=new ArrayList<Backattendancedetails>();
         //添加一次attendance记录
+       attendance.setAttendancedate(new Date(System.currentTimeMillis()));
        int i=attendanceService.addAttendance(attendance);
        //先通过attendace中的courseid找到所有上这门课的学生
        for (Selectedcourses student:selectedCoursesService.LoadAllStudent(attendance.getCourseid()))
@@ -75,12 +76,7 @@ public class AttendanceController {
            attendancedetails.setStudentid(student.getStudentid());
            attendancedetails.setAttendancedetail("undefined");
            attendanceService.addAttendanceDetails(attendancedetails);
-           //向前端返回Backattendancedetails列表
-           Backattendancedetails backattendancedetails=new Backattendancedetails();
-           backattendancedetails.setStudentid(student.getStudentid());
-           backattendancedetails.setAttendancedetail("undefined");
-           backattendancedetails.setStudentname(studentService.findStudentByID(student.getStudentid()).getStudentname());
-           list.add(backattendancedetails);
+
        }
        myResponse.setCode(1);
        myResponse.setMyBody(i);

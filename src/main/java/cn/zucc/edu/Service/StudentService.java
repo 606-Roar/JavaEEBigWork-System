@@ -10,4 +10,5 @@ public class StudentService {
     @Autowired
     StudentDao studentDao;
     public Student findStudentByID(int studentid){return studentDao.findStudentByID(studentid);}
+    public void addStudent(Student student){studentDao.addStudent(student);}
 }

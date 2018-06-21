@@ -1,6 +1,7 @@
 package cn.zucc.edu.controller;
 
 import cn.zucc.edu.Service.SelectedCoursesService;
+import cn.zucc.edu.Service.StudentService;
 import cn.zucc.edu.Util.MyResponse;
 import cn.zucc.edu.entity.Course;
 import cn.zucc.edu.entity.Selectedcourses;
@@ -15,6 +16,8 @@ import java.util.List;
 public class SelectedcoursesController {
     @Autowired
     SelectedCoursesService selectedCoursesService;
+    @Autowired
+    StudentService studentService;
     //显示某课程的选课信息列表
     @RequestMapping(value = "/LoadAllStudent",method = RequestMethod.POST)
     @ResponseBody
@@ -33,27 +36,34 @@ public class SelectedcoursesController {
         myResponse.setMyBody(selectedCoursesService.ReadStudent(selectedcourses.getStudentid()));
         return myResponse;
     }
-    //添加某课程的选课信息以及对应的学生信息
+    //添加某课程的选课信息以及对应的学生信息,前端删除的部分直接删除
     @RequestMapping("/AddClassStudent")
-    @ResponseBody
-    public MyResponse AddClassStudent (@RequestBody List<Selectedcourses> selectedcourses, @RequestBody List<Student> student){
-        MyResponse myResponse=new MyResponse();
-       for (Selectedcourses selectedcourses1:selectedcourses){
-        selectedCoursesService.AddClassStudent(selectedcourses1);
-       }
-        for (Student student1:student){
-        selectedCoursesService.AddStudent(student1);
-       }
-        myResponse.setCode(1);
-        return myResponse;
-    }
+        @ResponseBody
+        public MyResponse AddClassStudent (@RequestBody List<Selectedcourses> selectedcourses){
+            MyResponse myResponse=new MyResponse();
+                //先删除选课表中所有courseid对应的选课信息
+            for (Selectedcourses selectedcourses2:selectedCoursesService.LoadAllStudent(selectedcourses.get(0).getCourseid()))
+            {
+                selectedCoursesService.DelSelectedCourse(selectedcourses2.getCid());
+            }
+            for (Selectedcourses selectedcourses1:selectedcourses){
+                selectedCoursesService.AddClassStudent(selectedcourses1);
+                //student表中也添加记录
+                Student student=new Student();
+                student.setStudentid(selectedcourses1.getStudentid());
+                student.setStudentname(selectedcourses1.getStudentname());
+                studentService.addStudent(student);
+            }
+            myResponse.setCode(1);
+            return myResponse;
+        }
     //删除上课学生
     @RequestMapping("/DelStudent")
     @ResponseBody
     public MyResponse DelStudent(@RequestBody List<Student> student){
         MyResponse myResponse=new MyResponse();
         for(Student student1:student){
-        selectedCoursesService.DelStudent(student1.getSid());}
+        selectedCoursesService.DelSelectedCourse(student1.getSid());}
         myResponse.setCode(1);
         return myResponse;
     }
@@ -68,7 +78,7 @@ public class SelectedcoursesController {
         myResponse.setCode(1);
         return myResponse;
     }
-    //成绩输入
+    //成绩输入，用不到
     @RequestMapping("/AddScore")
     @ResponseBody
     public MyResponse AddScore(@RequestBody List<Selectedcourses> selectedcourses){

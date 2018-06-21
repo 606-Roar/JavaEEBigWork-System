@@ -12,6 +12,39 @@ public class Homework {
     private Date homeworkstartdate;
     private int courseid;
     private Date homeworkenddate;
+    private String homeworkname;
+    private String homeworkbody;
+    private String resource;
+    @Basic
+    @Column(name = "homeworkname")
+    public String getHomeworkname() {
+        return homeworkname;
+    }
+
+    public void setHomeworkname(String homeworkname) {
+        this.homeworkname = homeworkname;
+    }
+
+    @Basic
+    @Column(name = "homeworkbody")
+    public String getHomeworkbody() {
+        return homeworkbody;
+    }
+
+    public void setHomeworkbody(String homeworkbody) {
+        this.homeworkbody = homeworkbody;
+    }
+
+
+    @Basic
+    @Column(name = "resource")
+    public String getResource() {
+        return resource;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
 
     @Id
     @Column(name = "homeworkid")
@@ -66,7 +99,12 @@ public class Homework {
             return false;
         if (homeworkenddate != null ? !homeworkenddate.equals(homework.homeworkenddate) : homework.homeworkenddate != null)
             return false;
-
+        if (homeworkname != null ? !homeworkname.equals(homework.homeworkname) : homework.homeworkname != null)
+            return false;
+        if (homeworkbody != null ? !homeworkbody.equals(homework.homeworkbody) : homework.homeworkbody != null)
+            return false;
+        if (resource != null ? !resource.equals(homework.resource) : homework.resource != null)
+            return false;
         return true;
     }
 
@@ -76,6 +114,10 @@ public class Homework {
         result = 31 * result + (homeworkstartdate != null ? homeworkstartdate.hashCode() : 0);
         result = 31 * result + courseid;
         result = 31 * result + (homeworkenddate != null ? homeworkenddate.hashCode() : 0);
+        result = 31 * result + (homeworkname != null ? homeworkname.hashCode() : 0);
+        result = 31 * result + (homeworkbody != null ? homeworkbody.hashCode() : 0);
+        result = 31 * result + (resource != null ? resource.hashCode() : 0);
         return result;
     }
+
 }

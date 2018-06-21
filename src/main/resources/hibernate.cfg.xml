@@ -26,6 +26,7 @@
         <!--<mapping resource="cn/zucc/edu/*.hbm.xml"/>-->
         <!-- 指定自动生成数据表的策略 -->
         <property name="hbm2ddl.auto">update</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/grade</property>
         <mapping resource="mapper/mapping.xml"/>
         <mapping class="cn.zucc.edu.entity.Attendance"/>
         <mapping class="cn.zucc.edu.entity.Attendancedetails"/>
@@ -35,7 +36,6 @@
         <mapping class="cn.zucc.edu.entity.Selectedcourses"/>
         <mapping class="cn.zucc.edu.entity.Student"/>
         <mapping class="cn.zucc.edu.entity.Teacher"/>
-
     </session-factory>
 
 </hibernate-configuration>

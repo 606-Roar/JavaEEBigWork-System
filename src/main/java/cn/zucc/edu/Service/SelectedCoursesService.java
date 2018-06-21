@@ -27,10 +27,8 @@ public class SelectedCoursesService {
     public void AddStudent(Student student){
         selectedcoursesDao.addStudent(student);
     }
-    //删除上课学生
-    public void DelStudent(int cid){
-        selectedcoursesDao.delStudent(cid);
-    }
+    //删除选课信息
+    public void DelSelectedCourse(int cid){selectedcoursesDao.delSelectedcourses(cid);}
     //修改成绩
     public void ModifyStudentScore(Selectedcourses selectedcourses){
         selectedcoursesDao.modifyStudentScore(selectedcourses);

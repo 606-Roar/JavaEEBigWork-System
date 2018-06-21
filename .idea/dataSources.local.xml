@@ -2,7 +2,12 @@
 <project version="4">
   <component name="dataSourceStorageLocal">
     <data-source name="grade@localhost" uuid="c7723057-3f78-4b92-9fad-bb12fbc02a10">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <database-info product="MySQL" version="5.7.21-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+      <user-name>root</user-name>
       <introspection-schemas>*:grade</introspection-schemas>
     </data-source>
     <data-source name="hibernate.cfg.xml/Hibernate" uuid="26e5727d-356f-4716-bbfe-5cc5aeb32f61">
@@ -18,7 +23,33 @@
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
     </data-source>
     <data-source name="dataSource" uuid="34f39aca-3301-4444-a162-0c6d64ddd03a">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <database-info product="MySQL" version="5.7.21-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <introspection-schemas>*:grade</introspection-schemas>
+    </data-source>
+    <data-source name="grade@localhost [2]" uuid="b30e7a65-a555-49ba-9ae8-6c4ac1a9b33c">
+      <database-info product="MySQL" version="5.7.21-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+      <user-name>root</user-name>
+      <introspection-schemas>*:grade</introspection-schemas>
+    </data-source>
+    <data-source name="grade@localhost [3]" uuid="0cf25a11-5b6b-4199-a8f7-d21c53accc44">
+      <database-info product="MySQL" version="5.7.21-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <introspection-schemas>*:grade</introspection-schemas>
     </data-source>
   </component>
 </project>

@@ -32,6 +32,7 @@ public class SelectedcoursesDao {
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
         Selectedcourses selectedcourses1=new Selectedcourses();
+        selectedcourses1.setStudentname(selectedcourses.getStudentname());
         selectedcourses1.setStudentid(selectedcourses.getStudentid());
         selectedcourses1.setCourseid(selectedcourses.getCourseid());
         session.save(selectedcourses1);
@@ -47,8 +48,10 @@ public class SelectedcoursesDao {
         session.save(student1);
         transaction.commit();
     }
-    //删除上课学生
-    public synchronized void delStudent(int cid){
+
+    //删除选课记录
+    public  synchronized void delSelectedcourses(int cid)
+    {
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
         Selectedcourses selectedcourses=session.get(Selectedcourses.class,cid);

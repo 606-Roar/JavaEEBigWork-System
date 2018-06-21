@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 @CrossOrigin(origins = "*")
 @Repository("HomeworkDao")
@@ -16,18 +18,22 @@ public class HomeworkDao {
     @Autowired
     private SessionFactory sessionFactory;
     //创建作业
-    public synchronized void addHomework(Homework homework){
+    public synchronized int addHomework(Homework homework){
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
         Homework homework1=new Homework();
         homework1.setCourseid(homework.getCourseid());
+        homework1.setHomeworkname(homework.getHomeworkname());
+        homework1.setHomeworkbody(homework.getHomeworkbody());
+        homework1.setResource(homework.getResource());
         homework1.setHomeworkstartdate(homework.getHomeworkstartdate());
         homework1.setHomeworkenddate(homework.getHomeworkenddate());
-        session.save(homework1);
+        int homeworkid=(Integer) session.save(homework1);
         transaction.commit();
+        return homeworkid;
     }
     //修改作业的时间等
-    public  synchronized  void modifHomework(Homework homework)
+    public  synchronized  void modifyHomework(Homework homework)
     {
         Session session=sessionFactory.openSession();
         Transaction transaction=session.beginTransaction();
@@ -39,6 +45,9 @@ public class HomeworkDao {
                 e.printStackTrace();
             }
         }
+        homework1.setHomeworkname(homework.getHomeworkname());
+        homework1.setHomeworkbody(homework.getHomeworkbody());
+        homework1.setResource(homework.getResource());
         homework1.setHomeworkstartdate(homework.getHomeworkstartdate());
         homework1.setHomeworkenddate(homework.getHomeworkenddate());
         session.update(homework1);
@@ -106,7 +115,13 @@ public class HomeworkDao {
         transaction.commit();
     }
     //显示作业
-    public synchronized List<Homework> loadHomework(int courseid){
+    public synchronized List<Homework> loadAllHomework(int courseid){
         return this.sessionFactory.openSession().createQuery("from Homework where homeworkid="+courseid).list();
+    }
+    //显示作业基本信息
+    public synchronized Homework loadHomework(int homeworkid){
+        Session session=sessionFactory.openSession();
+        Homework homework=session.get(Homework.class,homeworkid);
+        return homework;
     }
 }

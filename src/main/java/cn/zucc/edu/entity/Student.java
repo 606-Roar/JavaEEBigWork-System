@@ -10,7 +10,7 @@ public class Student {
     private int sid;
     private int studentid;
     private String studentname;
-    private int courseid;
+
 
     @Id
     @Column(name = "sid")
@@ -42,15 +42,6 @@ public class Student {
         this.studentname = studentname;
     }
 
-    @Basic
-    @Column(name = "courseid")
-    public int getCourseid() {
-        return courseid;
-    }
-
-    public void setCourseid(int courseid) {
-        this.courseid = courseid;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -61,7 +52,6 @@ public class Student {
 
         if (sid != student.sid) return false;
         if (studentid != student.studentid) return false;
-        if (courseid != student.courseid) return false;
         if (studentname != null ? !studentname.equals(student.studentname) : student.studentname != null) return false;
 
         return true;
@@ -72,7 +62,6 @@ public class Student {
         int result = sid;
         result = 31 * result + studentid;
         result = 31 * result + (studentname != null ? studentname.hashCode() : 0);
-        result = 31 * result + courseid;
         return result;
     }
 }

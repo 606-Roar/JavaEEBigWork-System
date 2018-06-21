@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="grade@localhost">
+<dataSource name="dataSource">
   <database-model serializer="dbm" rdbms="MYSQL" format-version="4.7">
     <root id="1">
       <DefaultCasing>lower/lower</DefaultCasing>
@@ -1059,7 +1059,7 @@
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="261" parent="238" name="homeworkbody">
+    <column id="261" parent="238" name="body">
       <Position>6</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>

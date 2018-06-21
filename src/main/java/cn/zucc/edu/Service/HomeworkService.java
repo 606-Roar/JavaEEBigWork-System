@@ -12,9 +12,11 @@ public class HomeworkService {
     @Autowired
     HomeworkDao homeworkDao;
     //创建作业
-    public void addHomework(Homework homework){
-        homeworkDao.addHomework(homework);
+    public int addHomework(Homework homework){
+        return homeworkDao.addHomework(homework);
     }
+    //添加作业详情
+    public void modifyHomework(Homework homework){homeworkDao.modifyHomework(homework);}
     //添加作业详情
     public void addHomeworkDetails(Homeworkdetails homeworkdetails){
         homeworkDao.addHomeworkDetails(homeworkdetails);
@@ -27,18 +29,20 @@ public class HomeworkService {
     public void delHomeworkDetails(Homeworkdetails homeworkdetails){
         homeworkDao.delHomeworkDetails(homeworkdetails);
     }
-
     //删除作业
     public void delHomework(int homeworkid){
         homeworkDao.delHomework(homeworkid);
     }
-    //显示作业
+    //显示课程下所有作业列表
     public List<Homework> loadAllHomework(int courseid){
-        return homeworkDao.loadHomework(courseid);
+        return homeworkDao.loadAllHomework(courseid);
     }
-    //查看作业详情
+    //显示某个作业的基本信息
+    public Homework LoadHomework(int homeworkid){return homeworkDao.loadHomework(homeworkid);}
+    //查看某作业的详情
     public  List<Homeworkdetails> loadAllHomeworkdetails(int homeworkid){
         return homeworkDao.loadHomeworkdetails(homeworkid);
     }
+
 
 }

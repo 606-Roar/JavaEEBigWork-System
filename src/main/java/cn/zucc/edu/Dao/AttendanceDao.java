@@ -24,7 +24,6 @@ public class AttendanceDao {
         Attendance attendance1=new Attendance();
         attendance1.setAttendancedate(attendance.getAttendancedate());
         attendance1.setCourseid(attendance.getCourseid());
-
         int attendanceId=(Integer)session.save(attendance1);
         transaction.commit();
         return attendanceId;
@@ -95,6 +94,6 @@ public class AttendanceDao {
     }
     //load课程下所有点名列表
     public synchronized List<Attendance> loadAttendance(int courseid){
-        return this.sessionFactory.openSession().createQuery("from Attendance where attendanceid="+courseid).list();
+        return this.sessionFactory.openSession().createQuery("from Attendance where courseid="+courseid).list();
     }
 }

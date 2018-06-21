@@ -12,7 +12,9 @@
         <property name="courseid" column="courseid"/>
     </class>
     <class name="cn.zucc.edu.entity.Attendancedetails" table="attendancedetails" schema="grade">
-        <id name="nid" column="nid"/>
+        <id name="nid" column="nid">
+            <generator class="native"></generator>
+        </id>
         <property name="attendanceid" column="attendanceid"/>
         <property name="studentid" column="studentid"/>
         <property name="attendancedetail" column="attendancedetail"/>
@@ -23,23 +25,29 @@
         <property name="coursename" column="coursename"/>
     </class>
     <class name="cn.zucc.edu.entity.Homeworkdetails" table="homeworkdetails" schema="grade">
-        <id name="hid" column="hid"/>
+        <id name="hid" column="hid">
+            <generator class="native"></generator>
+        </id>
         <property name="homeworkid" column="homeworkid"/>
         <property name="studentid" column="studentid"/>
         <property name="homeworkdetail" column="homeworkdetail"/>
     </class>
     <class name="cn.zucc.edu.entity.Selectedcourses" table="selectedcourses" schema="grade">
-        <id name="cid" column="cid"/>
+        <id name="cid" column="cid">
+            <generator class="native"></generator>
+        </id>
         <property name="studentid" column="studentid"/>
         <property name="courseid" column="courseid"/>
         <property name="midtermresults" column="midtermresults"/>
         <property name="finalgrade" column="finalgrade"/>
+        <property name="studentname" column="studentname"/>
     </class>
     <class name="cn.zucc.edu.entity.Student" table="student" schema="grade">
-        <id name="sid" column="sid"/>
+        <id name="sid" column="sid">
+            <generator class="native"></generator>
+        </id>
         <property name="studentid" column="studentid"/>
         <property name="studentname" column="studentname"/>
-        <property name="courseid" column="courseid"/>
     </class>
     <class name="cn.zucc.edu.entity.Teacher" table="teacher" schema="grade">
         <id name="teacherid" column="teacherid"/>
@@ -48,9 +56,16 @@
         <property name="password" column="password"/>
     </class>
     <class name="cn.zucc.edu.entity.Homework" table="homework" schema="grade">
-        <id name="homeworkid" column="homeworkid"/>
+        <id name="homeworkid" column="homeworkid">
+            <generator class="native"></generator>
+        </id>
         <property name="homeworkstartdate" column="homeworkstartdate"/>
         <property name="courseid" column="courseid"/>
         <property name="homeworkenddate" column="homeworkenddate"/>
+        <property name="homeworkbody" column="homeworkbody"/>
+        <property name="resource" column="resource"/>
+        <property name="homeworkname" column="homeworkname"/>
+
     </class>
+
 </hibernate-mapping>

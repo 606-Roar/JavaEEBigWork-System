@@ -1,9 +1,6 @@
 package cn.zucc.edu.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Selectedcourses {
@@ -12,7 +9,7 @@ public class Selectedcourses {
     private int courseid;
     private String midtermresults;
     private String finalgrade;
-
+    private String studentname;
     @Id
     @Column(name = "cid")
     public int getCid() {
@@ -54,6 +51,14 @@ public class Selectedcourses {
     }
 
     @Basic
+    @Column(name = "studentname")
+    public String getStudentname(){
+        return studentname;
+    }
+    public void setStudentname(String studentname){
+        this.studentname=studentname;
+    }
+    @Basic
     @Column(name = "finalgrade")
     public String getFinalgrade() {
         return finalgrade;
@@ -76,7 +81,7 @@ public class Selectedcourses {
         if (midtermresults != null ? !midtermresults.equals(that.midtermresults) : that.midtermresults != null)
             return false;
         if (finalgrade != null ? !finalgrade.equals(that.finalgrade) : that.finalgrade != null) return false;
-
+        if (studentname != null ? !studentname.equals(that.studentname) : that.studentname != null) return false;
         return true;
     }
 
@@ -87,6 +92,7 @@ public class Selectedcourses {
         result = 31 * result + courseid;
         result = 31 * result + (midtermresults != null ? midtermresults.hashCode() : 0);
         result = 31 * result + (finalgrade != null ? finalgrade.hashCode() : 0);
+        result = 31 * result + (studentname != null ? studentname.hashCode() : 0);
         return result;
     }
 }
